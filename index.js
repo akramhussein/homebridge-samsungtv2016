@@ -66,7 +66,7 @@ function SamsungTv2016Accessory(log, config) {
             "Cmd": "Click",
             "DataOfCmd": key,
             "Option": "false",
-            "TypeOfRemote":"SendRemoteKey"
+            "TypeOfRemote": "SendRemoteKey"
           }
         };
 
