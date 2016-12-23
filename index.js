@@ -34,6 +34,10 @@ function SamsungTv2016Accessory(log, config) {
 
     // Wake-on-Lan
     this.wake = function(error) {
+      if (!this.mac_address) {
+          log("No MAC address provided/retrieved, failed to wake TV via Wake-on-Lan");
+          error(true);
+      }
       wol.wake(this.mac_address, function(wakeError) {
         if (wakeError) {
           log("Failed to wake TV via Wake-on-Lan")
