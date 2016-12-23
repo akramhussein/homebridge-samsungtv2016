@@ -20,7 +20,7 @@ function SamsungTv2016Accessory(log, config) {
     this.log = log;
     this.config = config;
     this.name = config["name"];
-    this.mac_address = config["mac_address"];
+    this.mac_address = config["mac_address"] || null;
     this.ip_address = config["ip_address"];
     this.api_timeout = config["api_timeout"] || 2000;
     this.is_powering_off = false;
@@ -28,7 +28,6 @@ function SamsungTv2016Accessory(log, config) {
 
     // Required config
     if (!this.ip_address) throw new Error("You must provide a config value for 'ip_address'.");
-    if (!this.mac_address) throw new Error("You must provide a config value for 'mac_address'.");
 
     // Generate app name to provide TV
     this.app_name_base64 = (new Buffer(config["app_name"] || "homebridge")).toString('base64');
@@ -106,6 +105,32 @@ function SamsungTv2016Accessory(log, config) {
         }
       });
     };
+
+    // Try and get MAC address from TV API
+    this.getWiFiMac = function(callback) {
+      request.get({ url: 'http://' + this.ip_address + ':8001/api/v2/', timeout: this.api_timeout}, function(err, res, body) {
+        if(!err && res.statusCode === 200) {
+          var data = JSON.parse(body);
+          log(data);
+          var macAddress = data.device.wifiMac;
+          callback(macAddress)
+        } else {
+          callback(null);
+        }
+      });
+    }
+
+    // Try and get MAC address from TV API, otherwise revert to config
+    if (!this.mac_address) {
+      this.getWiFiMac( function(macAddress) {
+        if (macAddress) {
+          log("Successfully got MAC Address from TV API");
+          this.mac_address = macAddress;
+        } else {
+          log("Unable to get MAC Address, reverting to config");
+        }
+      })
+    }
 
     this.service
         .getCharacteristic(Characteristic.On)
