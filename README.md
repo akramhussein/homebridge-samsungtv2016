@@ -11,7 +11,7 @@ This allows you to control your 2016 Samsung TV with HomeKit and Siri.
 
 ## Config
 
-* `accessory` = SamsungTV2016 (do not change).
+* `accessory` - SamsungTV2016 (do not change).
 * `name` - Can change to anything you want.
 * `ip_address` - IP Address of your TV.
 * `mac_address` - MAC Address of your TV. If you don't set it, programme will try and get it from the TV's API.
