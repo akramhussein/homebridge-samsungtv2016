@@ -20,11 +20,7 @@ This allows you to control your 2016 Samsung TV with HomeKit and Siri.
 
 1. Install homebridge using: npm install -g homebridge
 2. Clone this plugins repository
-
 ```git clone git@github.com:akramhussein/homebridge-samsungtv2016.git```
-
 3. Update your configuration file (most likely in ~/.homebridge/config.json)
-
 4. Start development mode
-
 ```DEBUG=* homebridge -D -P ./homebridge-samsungtv2016```
